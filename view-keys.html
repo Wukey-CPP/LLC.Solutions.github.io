@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Subscription Keys - LLC.Solutions</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #00bfff, #00ff00, #00ffff);
+            color: #fff;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        header {
+            background-color: rgba(0, 0, 0, 0.7);
+            width: 100%;
+            padding: 15px 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            padding-bottom: 10px;
+        }
+        header nav a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.2em;
+            margin: 0 15px;
+            padding: 10px;
+            border: 2px solid #fff;
+            border-radius: 5px;
+            background-color: rgba(0, 0, 0, 0.5);
+            transition: background-color 0.3s, color 0.3s;
+        }
+        header nav a:hover {
+            background-color: #fff;
+            color: #000;
+        }
+        .container {
+            padding: 80px 20px 20px;
+            max-width: 800px;
+            width: 100%;
+            margin-top: 60px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            border-radius: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        tr:nth-child(even) {
+            background-color: rgba(0, 0, 0, 0.3);
+        }
+        #error-message {
+            color: red;
+            font-size: 1.5em;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>LLC.Solutions</h1>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="LLC.Solutions Cheat Status.html">Status</a>
+            <a href="view-keys.html">View Keys</a>
+        </nav>
+    </header>
+
+    <div class="container" id="content">
+        <h2>Subscription Keys and Emails</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Email</th>
+                    <th>Subscription Key</th>
+                </tr>
+            </thead>
+            <tbody id="keys-table-body">
+                <!-- JavaScript will populate this table -->
+            </tbody>
+        </table>
+    </div>
+
+    <div id="error-message"></div>
+
+    <script>
+        // Hexadecimal encoded license key
+        const hexEncodedKey = "4c4c432e536f6c7574696f6e73206f776e65722031323334353637382d61626364656667682d696a6b6c6d6e6f70";
+
+        // Function to decode hexadecimal encoded key
+        function hexToStr(hex) {
+            let str = '';
+            for (let i = 0; i < hex.length; i += 2) {
+                str += String.fromCharCode(parseInt(hex.substr(i, 2), 16));
+            }
+            return str;
+        }
+
+        function validateLicense() {
+            const decodedKey = hexToStr(hexEncodedKey);
+            const userKey = prompt("Please enter your license key:\n" + decodedKey);
+            if (userKey === decodedKey) {
+                document.getElementById('content').style.display = 'block';
+                populateTable();
+            } else {
+                document.getElementById('error-message').innerText = "Invalid license key. Access denied.";
+            }
+        }
+
+        function loadExistingData() {
+            const keys = JSON.parse(localStorage.getItem('subscriptionKeys')) || [];
+            const emails = JSON.parse(localStorage.getItem('emails')) || [];
+            return { keys, emails };
+        }
+
+        function populateTable() {
+            const { keys, emails } = loadExistingData();
+            const tableBody = document.getElementById('keys-table-body');
+            tableBody.innerHTML = ''; // Clear existing rows
+            for (let i = 0; i < keys.length; i++) {
+                const row = document.createElement('tr');
+                row.innerHTML = `<td>${emails[i]}</td><td>${keys[i]}</td>`;
+                tableBody.appendChild(row);
+            }
+        }
+
+        // Prompt for license key on page load
+        validateLicense();
+    </script>
+</body>
+</html>

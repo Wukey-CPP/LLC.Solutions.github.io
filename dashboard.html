@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LLC.Solutions - Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #00bfff, #00ff00, #00ffff);
+            color: #fff;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        header {
+            background-color: rgba(0, 0, 0, 0.7);
+            width: 100%;
+            padding: 10px 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            color: #fff;
+        }
+        header nav a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.2em;
+            margin: 0 15px;
+            padding: 10px;
+            border: 2px solid #fff;
+            border-radius: 5px;
+            background-color: rgba(0, 0, 0, 0.5);
+            transition: background-color 0.3s, color 0.3s;
+        }
+        header nav a:hover {
+            background-color: #fff;
+            color: #000;
+        }
+        .dashboard-content {
+            padding: 80px 20px 20px;
+            max-width: 800px;
+            width: 100%;
+            margin-top: 60px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            border-radius: 10px;
+        }
+        .section {
+            margin-bottom: 40px;
+        }
+        .section h2 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        .section p {
+            font-size: 1.2em;
+            line-height: 1.6;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            font-size: 1em;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        .form-group button {
+            padding: 10px 20px;
+            font-size: 1em;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+        }
+        .form-group button:hover {
+            background-color: #0056b3;
+        }
+        .message {
+            color: red;
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>LLC.Solutions Dashboard</h1>
+        <nav>
+            <a href="LLC.Solutions main.html">Home</a>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="LLC.Solutions Cheat Status.html">Status</a>
+        </nav>
+    </header>
+
+    <div class="dashboard-content">
+        <section class="section generate-key">
+            <h2>Generate Subscription Key</h2>
+            <form id="generate-key-form">
+                <div class="form-group">
+                    <label for="email">Enter Your Email:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <button type="submit">Generate Key</button>
+                </div>
+                <div id="message" class="message"></div>
+            </form>
+        </section>
+
+        <section class="section submit-ticket">
+            <h2>Submit Your Ticket</h2>
+            <form id="submit-ticket-form">
+                <div class="form-group">
+                    <label for="key">Enter Your Key:</label>
+                    <input type="text" id="key" name="key" required>
+                </div>
+                <div class="form-group">
+                    <button type="submit">Submit Ticket</button>
+                </div>
+                <div id="ticket-message" class="message"></div>
+            </form>
+        </section>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2024 LLC.Solutions | Developed by Wukey</p>
+    </footer>
+
+    <script>
+        // Function to generate a random key
+        function generateRandomKey() {
+            return 'LLC.Solutions-' + Math.random().toString(36).substr(2, 7).toUpperCase() +
+                '-' + Math.random().toString(36).substr(2, 8).toUpperCase() +
+                '-' + Math.random().toString(36).substr(2, 13).toUpperCase();
+        }
+
+        // Load existing data from local storage
+        function loadExistingData() {
+            const keys = JSON.parse(localStorage.getItem('subscriptionKeys')) || [];
+            const emails = JSON.parse(localStorage.getItem('emails')) || [];
+            return { keys, emails };
+        }
+
+        // Function to save data to local storage
+        function saveData(email, key) {
+            const { keys, emails } = loadExistingData();
+            keys.push(key);
+            emails.push(email);
+            localStorage.setItem('subscriptionKeys', JSON.stringify(keys));
+            localStorage.setItem('emails', JSON.stringify(emails));
+        }
+
+        // Form submission for generating a key
+        document.getElementById('generate-key-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const key = generateRandomKey();
+            document.getElementById('message').innerText = 'Your new subscription key is: ' + key;
+            saveData(email, key);
+        });
+
+        // Form submission for submitting a ticket
+        document.getElementById('submit-ticket-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const key = document.getElementById('key').value;
+            const { keys } = loadExistingData();
+            if (keys.includes(key)) {
+                document.getElementById('ticket-message').innerText = 'Ticket submitted. Please check your email for further instructions.';
+            } else {
+                document.getElementById('ticket-message').innerText = 'Invalid key. Please try again.';
+            }
+        });
+    </script>
+</body>
+</html>

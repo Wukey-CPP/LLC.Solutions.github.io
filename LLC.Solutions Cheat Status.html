@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cheat Status</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #00bfff, #00ff00, #00ffff);
+            color: #fff;
+            text-align: center;
+            padding: 50px;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+        header {
+            background-color: rgba(0, 0, 0, 0.7);
+            width: 100%;
+            padding: 15px 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            color: #fff;
+            padding-bottom: 0;
+        }
+        header nav a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.2em;
+            margin: 0 15px;
+            padding: 10px;
+            border: 2px solid #fff;
+            border-radius: 5px;
+            background-color: rgba(0, 0, 0, 0.5);
+            transition: background-color 0.3s, color 0.3s;
+        }
+        header nav a:hover {
+            background-color: #fff;
+            color: #000;
+        }
+        .status-container {
+            position: relative;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: rgba(0, 0, 0, 0.6);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            width: 300px;
+            margin: 10px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            overflow: hidden;
+        }
+        .status-container:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+        }
+        .status-container .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 255, 0.5);
+            transform: translateY(-100%);
+            transition: transform 1s ease;
+            z-index: 1;
+        }
+        .status-container.active .overlay {
+            transform: translateY(0);
+        }
+        .status-container .content {
+            position: relative;
+            z-index: 2;
+        }
+        .combat-master {
+            border-left: 5px solid #00bfff; /* Bright blue */
+        }
+        .black-ops-3 {
+            border-left: 5px solid #00ff00; /* Bright green */
+        }
+        .pg3d {
+            border-left: 5px solid #00ffff; /* Cyan */
+        }
+        h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        .status {
+            font-size: 1.2em;
+        }
+        .footer {
+            background-color: rgba(0, 0, 0, 0.7);
+            width: 100%;
+            padding: 20px;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+        }
+        .footer p {
+            margin: 0;
+            font-size: 1.2em;
+        }
+        .footer a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>LLC.Solutions Cheat Status</h1>
+        <nav>
+            <a href="LLC.Solutions main.html">Home</a>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="LLC.Solutions Cheat Status.html">Status</a>
+        </nav>
+    </header>
+
+    <div class="status-container combat-master" data-url="https://github.com/Wukey-CPP/CM-Cheat">
+        <div class="overlay"></div>
+        <div class="content">
+            <h1>Combat Master</h1>
+            <p class="status">Undetected</p>
+        </div>
+    </div>
+    <div class="status-container black-ops-3" data-url="https://llc-solutions.gitbook.io/llc.solutions-api/fps-cheats/call-of-duty-black-ops-3-cheat">
+        <div class="overlay"></div>
+        <div class="content">
+            <h1>Black Ops 3</h1>
+            <p class="status">Undetected</p>
+        </div>
+    </div>
+    <div class="status-container pg3d" data-url="https://gofile.io/d/IXkEzE">
+        <div class="overlay"></div>
+        <div class="content">
+            <h1>Pixel Gun 3D</h1>
+            <p class="status">Undetected</p>
+        </div>
+    </div>
+
+    <script>
+        document.querySelectorAll('.status-container').forEach(container => {
+            container.addEventListener('click', function() {
+                const overlay = this.querySelector('.overlay');
+                overlay.classList.add('active');
+
+                setTimeout(() => {
+                    window.location.href = this.getAttribute('data-url');
+                }, 1000); // Match this delay with the animation duration
+            });
+        });
+    </script>
+
+    <footer class="footer">
+        <p>&copy; 2024 LLC.Solutions | Developed by Wukey | <a href="LLC.Solutions main.html">Home</a> | <a href="dashboard.html">Dashboard</a></p>
+    </footer>
+</body>
+</html>
